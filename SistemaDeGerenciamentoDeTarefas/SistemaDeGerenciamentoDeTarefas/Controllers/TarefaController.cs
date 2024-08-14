@@ -11,10 +11,12 @@ namespace SistemaDeGerenciamentoDeTarefas.Controllers
     public class TarefaController : ControllerBase
     {
         private readonly TarefaService _tarefaService;
+        private readonly RabbitMqService _rabbitMqService;
 
-        public TarefaController(TarefaService tarefaService)
+        public TarefaController(TarefaService tarefaService, RabbitMqService rabbitMqService)
         {
             _tarefaService = tarefaService;
+            _rabbitMqService = rabbitMqService;
         }
 
         [HttpGet]
@@ -38,6 +40,10 @@ namespace SistemaDeGerenciamentoDeTarefas.Controllers
         public ActionResult CriarTarefa([FromBody] TarefaDTO taskDto)
         {
             _tarefaService.CriarTarefa(taskDto.Titulo, taskDto.Descricao);
+
+            var message = $"Tarefa criada: {taskDto.Titulo} - {taskDto.Descricao}";
+            _rabbitMqService.PublishMessage(message);
+
             return CreatedAtAction(nameof(GetTarefasPorId), new { id = taskDto.Id }, taskDto);
         }
 
@@ -50,6 +56,10 @@ namespace SistemaDeGerenciamentoDeTarefas.Controllers
                 return NotFound();
             }
             _tarefaService.AtualizarTarefa(id, taskDto.Titulo, taskDto.Descricao, taskDto.Status);
+
+            var message = $"Tarefa atualizada: {taskDto.Titulo} - {taskDto.Descricao} - Status: {taskDto.Status}";
+            _rabbitMqService.PublishMessage(message);
+
             return NoContent();
         }
 
@@ -62,6 +72,10 @@ namespace SistemaDeGerenciamentoDeTarefas.Controllers
                 return NotFound();
             }
             _tarefaService.DeletarTarefa(id);
+
+            var message = $"Tarefa deletada: {tarefa.Titulo} - {tarefa.Descricao}";
+            _rabbitMqService.PublishMessage(message);
+
             return NoContent();
         }
     }
