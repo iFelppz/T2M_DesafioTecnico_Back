@@ -2,7 +2,7 @@
 
 namespace SistemaDeGerenciamentoDeTarefas.Repositores
 {
-    public interface TarefaRepository
+    public interface ITarefaRepository
     {
         TarefaModel BuscarPorId(int id);
         IEnumerable<TarefaModel> GetAll();

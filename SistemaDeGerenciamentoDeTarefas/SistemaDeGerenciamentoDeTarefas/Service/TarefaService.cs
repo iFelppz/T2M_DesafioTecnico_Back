@@ -8,9 +8,9 @@ namespace SistemaDeGerenciamentoDeTarefas.Service
 {
     public class TarefaService
     {
-        private readonly TarefaRepository _tarefaRepository;
+        private readonly ITarefaRepository _tarefaRepository;
 
-        public TarefaService(TarefaRepository tarefaRepository)
+        public TarefaService(ITarefaRepository tarefaRepository)
         {
             _tarefaRepository = tarefaRepository;
         }

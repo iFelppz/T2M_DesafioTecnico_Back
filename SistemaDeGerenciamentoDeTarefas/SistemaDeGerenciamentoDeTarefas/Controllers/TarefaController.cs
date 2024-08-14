@@ -12,9 +12,9 @@ namespace SistemaDeGerenciamentoDeTarefas.Controllers
     {
         private readonly TarefaService _tarefaService;
 
-        public TarefaController(TarefaService tafaService)
+        public TarefaController(TarefaService tarefaService)
         {
-            _tarefaService = tafaService;
+            _tarefaService = tarefaService;
         }
 
         [HttpGet]
@@ -38,7 +38,7 @@ namespace SistemaDeGerenciamentoDeTarefas.Controllers
         public ActionResult CriarTarefa([FromBody] TarefaDTO taskDto)
         {
             _tarefaService.CriarTarefa(taskDto.Titulo, taskDto.Descricao);
-            return CreatedAtAction(nameof(GetTarefas), new { id = taskDto.Id }, taskDto);
+            return CreatedAtAction(nameof(GetTarefasPorId), new { id = taskDto.Id }, taskDto);
         }
 
         [HttpPut("{id}")]
