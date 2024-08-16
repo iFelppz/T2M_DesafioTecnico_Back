@@ -78,5 +78,16 @@ namespace SistemaDeGerenciamentoDeTarefas.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("usuario/{usuarioId}")]
+        public ActionResult<IEnumerable<TarefaModel>> GetTarefasPorUsuario(int usuarioId)
+        {
+            var tarefas = _tarefaService.BuscarTarefasPorUsuario(usuarioId);
+            if (tarefas == null || !tarefas.Any())
+            {
+                return NotFound();
+            }
+            return Ok(tarefas);
+        }
     }
 }

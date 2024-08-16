@@ -17,11 +17,8 @@ namespace SistemaDeGerenciamentoDeTarefas.Service
         }
         public void CriarTarefa(TarefaDTO tarefaDto)
         {
-            var tarefa = new TarefaModel(tarefaDto.Titulo, tarefaDto.Descricao)
-            {
-                Id = tarefaDto.Id
-            };
-            tarefaDto.Id = tarefa.Id;
+            var tarefa = new TarefaModel(tarefaDto.Titulo, tarefaDto.Descricao, tarefaDto.UsuarioId);
+  
             _tarefaRepository.Adicionar(tarefa);
         }
 
@@ -47,6 +44,11 @@ namespace SistemaDeGerenciamentoDeTarefas.Service
         public TarefaModel BuscarPorId(int id)
         {
             return _tarefaRepository.BuscarPorId(id);
+        }
+
+        public IEnumerable<TarefaModel> BuscarTarefasPorUsuario(int usuarioId)
+        {
+            return _tarefaRepository.BuscarPorUsuarioId(usuarioId);
         }
     }
 }

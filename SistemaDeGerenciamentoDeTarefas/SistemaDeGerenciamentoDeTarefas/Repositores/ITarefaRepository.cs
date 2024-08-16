@@ -10,5 +10,7 @@ namespace SistemaDeGerenciamentoDeTarefas.Repositores
         void Atualizar(TarefaModel tarefaModel);
         void Deletar(int id);
 
+        IEnumerable<TarefaModel> BuscarPorUsuarioId(int usuarioId);
+
     }
 }

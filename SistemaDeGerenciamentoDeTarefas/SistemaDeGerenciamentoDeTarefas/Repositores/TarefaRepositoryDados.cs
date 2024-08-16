@@ -29,7 +29,7 @@ namespace SistemaDeGerenciamentoDeTarefas.Repositores
         {
             using (var dbConnection = Connection)
             {
-                const string query = "SELECT tarefa_id AS Id, titulo AS Titulo, descricao AS Descricao, status AS Status, data_criacao AS DataCriacao, data_atualizacao AS DataAtualizacao FROM Tarefa";
+                const string query = "SELECT tarefa_id AS Id, titulo AS Titulo, descricao AS Descricao, status AS Status, data_criacao AS DataCriacao, data_atualizacao AS DataAtualizacao, usuario_id AS UsuarioId FROM Tarefa";
                 return dbConnection.Query<TarefaModel>(query);
             }
         }
@@ -63,6 +63,18 @@ namespace SistemaDeGerenciamentoDeTarefas.Repositores
             {
                 const string query = "DELETE FROM Tarefa WHERE tarefa_id = @Id";
                 dbConnection.Execute(query, new { Id = id });
+            }
+        }
+
+        public IEnumerable<TarefaModel> BuscarPorUsuarioId(int usuarioId)
+        {
+            using (var dbConnection = Connection)
+            {
+                const string query = @"
+                SELECT tarefa_id AS Id, titulo AS Titulo, descricao AS Descricao, status AS Status, data_criacao AS DataCriacao, data_atualizacao AS DataAtualizacao, usuario_id AS UsuarioId
+                FROM Tarefa
+                WHERE usuario_id = @UsuarioId";
+                return dbConnection.Query<TarefaModel>(query, new { UsuarioId = usuarioId });
             }
         }
     }
