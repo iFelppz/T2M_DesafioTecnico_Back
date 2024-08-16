@@ -6,13 +6,14 @@ namespace SistemaDeGerenciamentoDeTarefas.Models
     public class TarefaModel
     {
         private TarefaModel() { }
-        public TarefaModel(string titulo, string descricao)
+        public TarefaModel(string titulo, string descricao, int usuarioId)
         {      
             Titulo = titulo;
             Descricao = descricao;
             Status = StatusTarefa.Pendente;
             DataCriacao = DateTime.UtcNow;
             DataAtualizacao = DateTime.UtcNow;
+            UsuarioId = usuarioId;
         }
         public void Atualizacao(string titulo, string descricao, StatusTarefa status)
         {
@@ -33,7 +34,7 @@ namespace SistemaDeGerenciamentoDeTarefas.Models
         public DateTime DataCriacao { get; set; }
         public DateTime DataAtualizacao { get; set; }
 
-
+        public int UsuarioId { get; set; }
     }
 
 }
