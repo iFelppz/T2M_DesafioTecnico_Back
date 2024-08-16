@@ -12,5 +12,7 @@ namespace SistemaDeGerenciamentoDeTarefas.DTO
 
         public int UsuarioId { get; set; }
 
+        public DateTime Prazo { get; set; }
+
     }
 }

@@ -16,11 +16,13 @@ namespace SistemaDeGerenciamentoDeTarefas.Repositores
 
         private IDbConnection Connection => new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
 
+        protected IDbConnection GetConnectionForTesting() => Connection;
+
         public TarefaModel BuscarPorId(int id)
         {
             using (var dbConnection = Connection)
             {
-                const string query = "SELECT tarefa_id AS Id, titulo AS Titulo, descricao AS Descricao, status AS Status, data_criacao AS DataCriacao, data_atualizacao AS DataAtualizacao FROM Tarefa WHERE tarefa_id = @Id";
+                const string query = "SELECT tarefa_id AS Id, titulo AS Titulo, descricao AS Descricao, status AS Status, data_criacao AS DataCriacao, data_atualizacao AS DataAtualizacao, prazo AS Prazo FROM Tarefa WHERE tarefa_id = @Id";
                 return dbConnection.QueryFirstOrDefault<TarefaModel>(query, new { Id = id });
             }
         }
@@ -29,7 +31,7 @@ namespace SistemaDeGerenciamentoDeTarefas.Repositores
         {
             using (var dbConnection = Connection)
             {
-                const string query = "SELECT tarefa_id AS Id, titulo AS Titulo, descricao AS Descricao, status AS Status, data_criacao AS DataCriacao, data_atualizacao AS DataAtualizacao, usuario_id AS UsuarioId FROM Tarefa";
+                const string query = "SELECT tarefa_id AS Id, titulo AS Titulo, descricao AS Descricao, status AS Status, data_criacao AS DataCriacao, data_atualizacao AS DataAtualizacao, usuario_id AS UsuarioId, prazo AS Prazo FROM Tarefa";
                 return dbConnection.Query<TarefaModel>(query);
             }
         }
@@ -39,8 +41,8 @@ namespace SistemaDeGerenciamentoDeTarefas.Repositores
             using (var dbConnection = Connection)
             {
                 const string query = @"
-                    INSERT INTO Tarefa (titulo, descricao, data_criacao, data_atualizacao)
-                    VALUES (@Titulo, @Descricao, @DataCriacao, @DataAtualizacao)";
+                    INSERT INTO Tarefa (titulo, descricao, data_criacao, data_atualizacao, prazo)
+                    VALUES (@Titulo, @Descricao, @DataCriacao, @DataAtualizacao, @Prazo)";
                 dbConnection.Execute(query, tarefaModel);
             }
             return tarefaModel;
@@ -52,7 +54,7 @@ namespace SistemaDeGerenciamentoDeTarefas.Repositores
             {
                 const string query = @"
                     UPDATE Tarefa
-                    SET titulo = @Titulo, descricao = @Descricao, status = @Status, data_atualizacao = @DataAtualizacao
+                    SET titulo = @Titulo, descricao = @Descricao, status = @Status, data_atualizacao = @DataAtualizacao, prazo = @Prazo
                     WHERE tarefa_id = @Id";
                 dbConnection.Execute(query, tarefaModel);
             }
@@ -72,7 +74,7 @@ namespace SistemaDeGerenciamentoDeTarefas.Repositores
             using (var dbConnection = Connection)
             {
                 const string query = @"
-                SELECT tarefa_id AS Id, titulo AS Titulo, descricao AS Descricao, status AS Status, data_criacao AS DataCriacao, data_atualizacao AS DataAtualizacao, usuario_id AS UsuarioId
+                SELECT tarefa_id AS Id, titulo AS Titulo, descricao AS Descricao, status AS Status, data_criacao AS DataCriacao, data_atualizacao AS DataAtualizacao, usuario_id AS UsuarioId, prazo AS Prazo
                 FROM Tarefa
                 WHERE usuario_id = @UsuarioId";
                 return dbConnection.Query<TarefaModel>(query, new { UsuarioId = usuarioId });

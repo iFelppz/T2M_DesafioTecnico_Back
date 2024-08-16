@@ -48,14 +48,14 @@ namespace SistemaDeGerenciamentoDeTarefas.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult AtualizarTareafa(int id, [FromBody] TarefaDTO taskDto)
+        public ActionResult AtualizarTarefa(int id, [FromBody] TarefaDTO taskDto)
         {
             var tarefa = _tarefaService.BuscarPorId(id);
             if (tarefa == null)
             {
                 return NotFound();
             }
-            _tarefaService.AtualizarTarefa(id, taskDto.Titulo, taskDto.Descricao, taskDto.Status);
+            _tarefaService.AtualizarTarefa(id, taskDto.Titulo, taskDto.Descricao, taskDto.Status, taskDto.Prazo);
 
             var message = $"Tarefa atualizada: {taskDto.Titulo} - {taskDto.Descricao} - Status: {taskDto.Status}";
             _rabbitMqService.PublishMessage(message);

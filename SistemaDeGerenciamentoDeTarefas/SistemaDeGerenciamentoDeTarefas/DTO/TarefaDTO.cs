@@ -7,13 +7,14 @@ namespace SistemaDeGerenciamentoDeTarefas.DTO
     {
         public TarefaDTO() { }
 
-        public TarefaDTO(int id, string titulo, string descricao, StatusTarefa status, int usuarioId)
+        public TarefaDTO(int id, string titulo, string descricao, StatusTarefa status, int usuarioId, DateTime prazo)
         {
             Id = id;
             Titulo = titulo;
             Descricao = descricao;
             Status = status;
             UsuarioId = usuarioId;
+            Prazo = prazo;
         }
 
         public TarefaDTO(TarefaModel tarefaModel)
@@ -23,6 +24,7 @@ namespace SistemaDeGerenciamentoDeTarefas.DTO
             this.Descricao = tarefaModel.Descricao;
             this.Status = tarefaModel.Status;
             this.UsuarioId = tarefaModel.UsuarioId;
+            this.Prazo = tarefaModel.Prazo;
         }
 
         public int Id { get; set; }
@@ -31,6 +33,8 @@ namespace SistemaDeGerenciamentoDeTarefas.DTO
         public StatusTarefa Status { get; set; }
 
         public int UsuarioId { get; set; }
+
+        public DateTime Prazo { get; set; }
 
         public override bool Equals(object? obj)
         {

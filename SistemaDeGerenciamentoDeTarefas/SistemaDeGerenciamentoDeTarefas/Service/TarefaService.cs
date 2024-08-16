@@ -24,6 +24,7 @@ namespace SistemaDeGerenciamentoDeTarefas.Service
             tarefaModel.Descricao = tarefaDto.Descricao;
             tarefaModel.UsuarioId = tarefaDto.UsuarioId;
             tarefaModel.Status = tarefaDto.Status;
+            tarefaModel.Prazo = tarefaDto.Prazo;
 
             tarefaModel = _tarefaRepository.Adicionar(tarefaModel);
 
@@ -31,12 +32,12 @@ namespace SistemaDeGerenciamentoDeTarefas.Service
             return tarefaDTO;
         }
 
-        public void AtualizarTarefa(int id, string titulo, string descricao, StatusTarefa status)
+        public void AtualizarTarefa(int id, string titulo, string descricao, StatusTarefa status, DateTime prazo)
         {
             var tarefa = _tarefaRepository.BuscarPorId(id);
             if (tarefa != null)
             {
-                tarefa.Atualizacao(titulo, descricao, status);
+                tarefa.Atualizacao(titulo, descricao, status, prazo);
                 _tarefaRepository.Atualizar(tarefa);
             }
         }
