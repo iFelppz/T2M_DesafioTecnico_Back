@@ -39,11 +39,11 @@ namespace SistemaDeGerenciamentoDeTarefas.Controllers
         [HttpPost]
         public ActionResult CriarTarefa([FromBody] TarefaDTO taskDto)
         {
-            _tarefaService.CriarTarefa(taskDto.Titulo, taskDto.Descricao);
-
+            _tarefaService.CriarTarefa(taskDto);
+         
             var message = $"Tarefa criada: {taskDto.Titulo} - {taskDto.Descricao}";
             _rabbitMqService.PublishMessage(message);
-
+          
             return CreatedAtAction(nameof(GetTarefasPorId), new { id = taskDto.Id }, taskDto);
         }
 

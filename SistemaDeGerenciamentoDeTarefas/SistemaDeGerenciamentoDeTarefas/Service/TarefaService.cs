@@ -1,4 +1,5 @@
-﻿using SistemaDeGerenciamentoDeTarefas.Enums;
+﻿using SistemaDeGerenciamentoDeTarefas.DTO;
+using SistemaDeGerenciamentoDeTarefas.Enums;
 using SistemaDeGerenciamentoDeTarefas.Models;
 using SistemaDeGerenciamentoDeTarefas.Repositores;
 using System;
@@ -14,11 +15,16 @@ namespace SistemaDeGerenciamentoDeTarefas.Service
         {
             _tarefaRepository = tarefaRepository;
         }
-        public void CriarTarefa(string titulo, string descricao)
+        public void CriarTarefa(TarefaDTO tarefaDto)
         {
-            var tarefa = new TarefaModel(titulo, descricao);
+            var tarefa = new TarefaModel(tarefaDto.Titulo, tarefaDto.Descricao)
+            {
+                Id = tarefaDto.Id
+            };
+            tarefaDto.Id = tarefa.Id;
             _tarefaRepository.Adicionar(tarefa);
         }
+
         public void AtualizarTarefa(int id, string titulo, string descricao, StatusTarefa status)
         {
             var tarefa = _tarefaRepository.BuscarPorId(id);

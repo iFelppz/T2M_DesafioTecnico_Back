@@ -3,10 +3,11 @@
 namespace SistemaDeGerenciamentoDeTarefas.DTO
 {
     public class TarefaDTO
-    { 
+    {
+        public TarefaDTO() { }
+
         public TarefaDTO(int id, string titulo, string descricao, StatusTarefa status)
         {
-            Id = id;
             Titulo = titulo;
             Descricao = descricao;
             Status = status;
@@ -19,16 +20,19 @@ namespace SistemaDeGerenciamentoDeTarefas.DTO
 
         public override bool Equals(object? obj)
         {
-            return obj is TarefaDTO dTO &&
-                   Id == dTO.Id &&
-                   Titulo == dTO.Titulo &&
-                   Descricao == dTO.Descricao &&
-                   Status == dTO.Status;
+            if (obj is TarefaDTO dTO)
+            {
+                return Id == dTO.Id &&
+                       Titulo == dTO.Titulo &&
+                       Descricao == dTO.Descricao &&
+                       Status == dTO.Status;
+            }
+            return false;
         }
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return HashCode.Combine(Id, Titulo, Descricao, Status);
         }
     }
 }
