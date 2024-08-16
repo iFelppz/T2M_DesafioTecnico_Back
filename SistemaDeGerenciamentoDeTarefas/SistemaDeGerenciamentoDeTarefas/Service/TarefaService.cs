@@ -1,9 +1,11 @@
-﻿using SistemaDeGerenciamentoDeTarefas.DTO;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using SistemaDeGerenciamentoDeTarefas.DTO;
 using SistemaDeGerenciamentoDeTarefas.Enums;
 using SistemaDeGerenciamentoDeTarefas.Models;
 using SistemaDeGerenciamentoDeTarefas.Repositores;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SistemaDeGerenciamentoDeTarefas.Service
 {
@@ -15,11 +17,18 @@ namespace SistemaDeGerenciamentoDeTarefas.Service
         {
             _tarefaRepository = tarefaRepository;
         }
-        public void CriarTarefa(TarefaDTO tarefaDto)
+        public TarefaDTO CriarTarefa(InserirTarefaDTO tarefaDto)
         {
-            var tarefa = new TarefaModel(tarefaDto.Titulo, tarefaDto.Descricao, tarefaDto.UsuarioId);
-  
-            _tarefaRepository.Adicionar(tarefa);
+            TarefaModel tarefaModel = new();
+            tarefaModel.Titulo = tarefaDto.Titulo;
+            tarefaModel.Descricao = tarefaDto.Descricao;
+            tarefaModel.UsuarioId = tarefaDto.UsuarioId;
+            tarefaModel.Status = tarefaDto.Status;
+
+            tarefaModel = _tarefaRepository.Adicionar(tarefaModel);
+
+            TarefaDTO tarefaDTO = new TarefaDTO(tarefaModel);
+            return tarefaDTO;
         }
 
         public void AtualizarTarefa(int id, string titulo, string descricao, StatusTarefa status)
@@ -33,10 +42,14 @@ namespace SistemaDeGerenciamentoDeTarefas.Service
         }
         public void DeletarTarefa(int id)
         {
-            _tarefaRepository.Deletar(id);
+            var tarefa = _tarefaRepository.BuscarPorId(id);
+            if (tarefa != null)
+            {
+                _tarefaRepository.Deletar(id);
+            }
         }
 
-        public IEnumerable<TarefaModel> ListarTudo()
+            public IEnumerable<TarefaModel> ListarTudo()
         {
             return _tarefaRepository.GetAll();
         }

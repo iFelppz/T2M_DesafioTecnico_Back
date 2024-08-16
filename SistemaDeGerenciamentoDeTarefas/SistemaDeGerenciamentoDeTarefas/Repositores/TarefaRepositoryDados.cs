@@ -34,7 +34,7 @@ namespace SistemaDeGerenciamentoDeTarefas.Repositores
             }
         }
 
-        public void Adicionar(TarefaModel tarefaModel)
+        public TarefaModel Adicionar(TarefaModel tarefaModel)
         {
             using (var dbConnection = Connection)
             {
@@ -43,6 +43,7 @@ namespace SistemaDeGerenciamentoDeTarefas.Repositores
                     VALUES (@Titulo, @Descricao, @DataCriacao, @DataAtualizacao)";
                 dbConnection.Execute(query, tarefaModel);
             }
+            return tarefaModel;
         }
 
         public void Atualizar(TarefaModel tarefaModel)
@@ -77,5 +78,7 @@ namespace SistemaDeGerenciamentoDeTarefas.Repositores
                 return dbConnection.Query<TarefaModel>(query, new { UsuarioId = usuarioId });
             }
         }
+
+       
     }
 }

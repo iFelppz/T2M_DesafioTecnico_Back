@@ -1,4 +1,5 @@
 ﻿using SistemaDeGerenciamentoDeTarefas.Enums;
+using SistemaDeGerenciamentoDeTarefas.Models;
 
 namespace SistemaDeGerenciamentoDeTarefas.DTO
 {
@@ -6,17 +7,30 @@ namespace SistemaDeGerenciamentoDeTarefas.DTO
     {
         public TarefaDTO() { }
 
-        public TarefaDTO(int id, string titulo, string descricao, StatusTarefa status)
+        public TarefaDTO(int id, string titulo, string descricao, StatusTarefa status, int usuarioId)
         {
+            Id = id;
             Titulo = titulo;
             Descricao = descricao;
             Status = status;
+            UsuarioId = usuarioId;
+        }
+
+        public TarefaDTO(TarefaModel tarefaModel)
+        {
+            this.Id = tarefaModel.Id;
+            this.Titulo = tarefaModel.Titulo;
+            this.Descricao = tarefaModel.Descricao;
+            this.Status = tarefaModel.Status;
+            this.UsuarioId = tarefaModel.UsuarioId;
         }
 
         public int Id { get; set; }
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public StatusTarefa Status { get; set; }
+
+        public int UsuarioId { get; set; }
 
         public override bool Equals(object? obj)
         {

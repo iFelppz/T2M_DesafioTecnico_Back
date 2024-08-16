@@ -37,14 +37,14 @@ namespace SistemaDeGerenciamentoDeTarefas.Controllers
         }
 
         [HttpPost]
-        public ActionResult CriarTarefa([FromBody] TarefaDTO taskDto)
+        public ActionResult CriarTarefa([FromBody] InserirTarefaDTO taskDto)
         {
-            _tarefaService.CriarTarefa(taskDto);
+            TarefaDTO tarefaDto = _tarefaService.CriarTarefa(taskDto);            
          
             var message = $"Tarefa criada: {taskDto.Titulo} - {taskDto.Descricao}";
             _rabbitMqService.PublishMessage(message);
           
-            return CreatedAtAction(nameof(GetTarefasPorId), new { id = taskDto.Id }, taskDto);
+            return CreatedAtAction(nameof(GetTarefasPorId), new { id = tarefaDto.Id }, tarefaDto);
         }
 
         [HttpPut("{id}")]

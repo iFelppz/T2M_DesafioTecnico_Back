@@ -5,7 +5,7 @@ namespace SistemaDeGerenciamentoDeTarefas.Models
 {
     public class TarefaModel
     {
-        private TarefaModel() { }
+        public TarefaModel() { }
         public TarefaModel(string titulo, string descricao, int usuarioId)
         {      
             Titulo = titulo;
